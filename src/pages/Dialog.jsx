@@ -61,9 +61,9 @@ const DialogComponent = ({ open, onClose, setReRender, reRender, task }) => {
 
         try {
             if (task) {
-                await axiosInstance.put(`/tasks/${task.id}`, payload);
+                await axiosInstance.put(`/tasks/${task.id}`, { data: payload });
             } else {
-                await axiosInstance.post('/tasks/create', payload);
+                await axiosInstance.post('/tasks/create', { data: payload });
             }
             onClose();
             setReRender(!reRender);
