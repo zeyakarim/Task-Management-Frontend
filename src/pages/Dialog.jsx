@@ -1,4 +1,3 @@
-
 import { forwardRef, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -12,17 +11,18 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 
 const Transition = forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
+    return <Slide direction="up" ref={ref} {...props} />;
 });
 
 const statuses = { 
-  'Todo': 'to-do',
-  'In-Progress': 'in-progress',
-  'Completed': 'completed'
+    'Todo': 'to-do',
+    'In-Progress': 'in-progress',
+    'QA': 'qa',
+    'Completed': 'completed'
 };
 
 const issueTypes = ['Bug', 'Feat'];
-const statusOptions = ['Todo', 'In-Progress', 'Completed'];
+const statusOptions = ['Todo', 'In-Progress', 'QA','Completed'];
 
 const DialogComponent = ({ open, onClose, setReRender, reRender, task }) => {
     const [formData, setFormData] = useState({
