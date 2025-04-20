@@ -1,3 +1,4 @@
+
 import { forwardRef, useEffect, useState } from 'react';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -6,6 +7,9 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import { Autocomplete, TextField } from '@mui/material';
 import axiosInstance from '../utility/axios-instance';
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -26,7 +30,8 @@ const DialogComponent = ({ open, onClose, setReRender, reRender, task }) => {
         description: '',
         git_branch_name: '',
         card_type: 'Feat',
-        status: 'Todo'
+        status: 'Todo',
+        dueDate: null
     });
 
     useEffect(() => {
@@ -36,6 +41,7 @@ const DialogComponent = ({ open, onClose, setReRender, reRender, task }) => {
                 description: task.description || '',
                 git_branch_name: task.git_branch_name || '',
                 card_type: task.card_type || 'Feat',
+                dueDate: task?.dueDate || '',
                 status: Object.keys(statuses).find(key => statuses[key] === task.status) || 'Todo'
             });
         } else {
@@ -44,10 +50,20 @@ const DialogComponent = ({ open, onClose, setReRender, reRender, task }) => {
                 description: '',
                 git_branch_name: '',
                 card_type: 'Feat',
-                status: 'Todo'
+                status: 'Todo',
+                dueDate: ''
             });
         }
     }, [task]);
+
+    const getFormattedDate = (inputDate) => {
+        const dateObject = new Date(inputDate);
+        const year = dateObject.getFullYear();
+        const month = (dateObject.getMonth() + 1).toString().padStart(2, "0");
+        const day = dateObject.getDate().toString().padStart(2, "0");
+        const formattedDate = `${year}-${month}-${day}`;
+        return formattedDate;
+    };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -57,7 +73,10 @@ const DialogComponent = ({ open, onClose, setReRender, reRender, task }) => {
             git_branch_name: formData.git_branch_name,
             card_type: formData.card_type,
             status: statuses[formData.status],
+            due_date: getFormattedDate(formData?.dueDate)
         };
+
+        console.log(payload,'payload')
 
         try {
             if (task) {
@@ -139,6 +158,18 @@ const DialogComponent = ({ open, onClose, setReRender, reRender, task }) => {
                         fullWidth
                         sx={{ gridColumn: 'span 2' }}
                     />
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker
+                            label="Due Date"
+                            value={formData.dueDate ? dayjs(formData.dueDate) : null}
+                            onChange={(newValue) => {
+                                setFormData({...formData, dueDate: newValue});
+                            }}
+                            disablePast
+                            format="DD/MM/YYYY"
+                        />
+                    </LocalizationProvider>
 
                     <div className="flex justify-end gap-[8px]" style={{ gridColumn: 'span 2' }}>
                         <Button variant="outlined" onClick={onClose}>
