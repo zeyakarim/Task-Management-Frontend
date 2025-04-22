@@ -41,23 +41,41 @@ const SignIn = () => {
     }
 
     return (
-        <div className='min-h-screen flex items-center justify-center p-4 bg-gray-100'>
+        <div className='h-screen flex items-center justify-center bg-[#BFDADA]'>
             <div 
-                className='flex gap-4 bg-[#F2C4CF] rounded-[12px] items-center border-2 border-[#fff] m-auto' 
-                style={{boxShadow: '0 4px 12pxrgb(225, 225, 225), 0 1px 3px #f3f3f3'}}
+                className='flex gap-4 rounded-xl bg-gradient-to-b from-[#8DB4B4] to-[#ADC9C9] justify-center items-center border-4 border-[#fff] h-[70vh] w-[70%] m-auto' 
+                style={{ boxShadow: '0px 0px 6px 2px #0000001a' }}
             >
-                <div className='w-[50%]'>
+                <div className='w-[30%] h-[100%] rounded-xl relative'>
+                    <div className='flex flex-col gap-4 p-6'>
+                        <img 
+                            src="logo.png" 
+                            alt=""
+                            className='rounded-lg w-8 h-8'
+                        />
+                        <div className='flex flex-col gap-1'>
+                            <p className='text-white text-xl m-0'>Welcome to</p>
+                            <h2 className='font-semibold text-3xl m-0 mb-2 text-white'>
+                                Tasks Management
+                            </h2>
+                            <p className='text-white text-base m-0'>It's time to track your task record</p>
+                        </div>
+                    </div>
                     <img 
-                        src="3d-1.png" alt=""
+                        src="3d-image.png" alt=""
                         width='100%'
-                        className='rounded-[12px]'
+                        className='rounded-[12px] absolute bottom-6 -right-24'
                     />
                 </div>
-                <form method="post" className='flex flex-col m-auto bg-[#F2C4CF] p-[40px] rounded-[12px]' style={{ width:'50%'}} onSubmit={handleSubmit}>
-                    <h3 className='font-[500] text-[24px]'>Sign In</h3>
-                    <h2 className='font-bold text-[24px] mt-4 mb-2' style={{ fontStyle:'italic', fontFamily:'auto'}}>
-                        It's <span className='text-[#50DACC]'>T</span>ime to <span className='text-[#50DACC]'>T</span>rack your record
-                    </h2>
+
+                <form 
+                    method="post" 
+                    className='flex flex-col h-[100%] gap-4 py-24 px-28 rounded-lg bg-white justify-center' 
+                    style={{ width: '70%' }} 
+                    onSubmit={handleSubmit}
+                >
+                    <h3 className='font-semibold text-2xl'>Login</h3>
+
                     <TextField 
                         label='Username'
                         name='username'
@@ -66,19 +84,6 @@ const SignIn = () => {
                         required
                         margin='normal'
                         autoComplete='off'
-                        sx={{
-                            '& .MuiInputLabel-root': {
-                                color: 'black', // Default label color
-                            },
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': {
-                                    borderColor: 'black', // Default border color
-                                },
-                                '&.Mui-focused fieldset': {
-                                    borderColor: 'black', // Focused state
-                                },
-                            },
-                        }}
                     />
 
                     <TextField
@@ -90,36 +95,24 @@ const SignIn = () => {
                         id="password"
                         autoComplete='off'
                         InputProps={{
-                        endAdornment: (
-                            <InputAdornment position="end">
-                            <IconButton onClick={() => setShowPassword(!showPassword)}>
-                                {showPassword ? <VisibilityOff /> : <Visibility />}
-                            </IconButton>
-                            </InputAdornment>
-                        ),
-                        }}
-                        sx={{
-                            '& .MuiInputLabel-root': {
-                                color: 'black', // Default label color
-                            },
-                            '& .MuiOutlinedInput-root': {
-                                '& fieldset': {
-                                    borderColor: 'black', // Default border color
-                                },
-                                '&.Mui-focused fieldset': {
-                                    borderColor: 'black', // Focused state
-                                },
-                            },
+                            endAdornment: (
+                                <InputAdornment position="end">
+                                    <IconButton onClick={() => setShowPassword(!showPassword)}>
+                                        {showPassword ? <VisibilityOff /> : <Visibility />}
+                                    </IconButton>
+                                </InputAdornment>
+                            ),
                         }}
                     />
+
                     <div className='flex items-start mt-[12px]'>
                         <button 
                             type='submit' 
-                            className='bg-[#50DACC] text-[#000] border-none p-[10px] rounded-[10px] w-[200px] cursor-pointer'
+                            className='bg-[#8BB2B2] text-[#fff] border-none p-2 rounded-lg w-full cursor-pointer font-semibold'
                             style={{ boxShadow: '0 4px 12px #f3f3f3, 0 1px 3px #f3f3f3' }}
                         >Submit</button>
                     </div>
-                    <p className='text-start'>Already Have Not Account?<Link to="/signup">Sign Up</Link></p>
+                    <p className='text-start text-gray-400'>Already Have Not Account? <Link to="/signup" className='text-[#719090] font-medium'>Sign Up</Link></p>
                 </form>
 
                 {loading ? <Spinner /> : null}
