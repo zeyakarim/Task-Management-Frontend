@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
 import { useSelector } from "react-redux";
+import Auth from "./pages/Auth";
 
 function App() {
   const auth = useSelector((state) => state.auth);
@@ -17,7 +18,7 @@ function App() {
               auth.authenticated ? (
                 <Home />
               ) : (
-                <SignIn />
+                <Auth />
               )
             }
           />
