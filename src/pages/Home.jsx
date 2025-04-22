@@ -7,7 +7,7 @@ import { ArrowRight, BorderColor, Delete, Edit, Search } from '@mui/icons-materi
 import { IconButton, InputAdornment, TextField, Tooltip } from '@mui/material';
 import ConfirmationDialog from './ConfirmationDialog';
 
-const result = ['To Do', 'On Progress', 'QA', 'Completed'];
+const result = ['All', 'To Do', 'On Progress', 'QA', 'Completed'];
 
 const groupTasksByStatus = (tasks) => {
     const result = [
@@ -51,10 +51,24 @@ const Home = () => {
     const [deleteTaskId, setDeleteTaskId] = useState(null)
     const [reRender, setReRender] = useState(false);
     const [task, setTask] = useState(null);
+    const [searchFor, setSearchFor] = useState('');
+    const [filter, setFilter] = useState('')
 
     const fetchData = async () => {
+        const filterMap =  {
+            'All': '',
+            'To Do': 'to-do',
+            'On Progress': 'in-progress',
+            'QA': 'qa',
+            'Completed': 'completed'
+        };
+
+        const params = {
+            searchFor,
+            filter: filterMap[filter]
+        }
         axiosInstance
-            .get('/tasks')
+            .get(`/tasks`, { params })
             .then((response) => {
                 setTasks(groupTasksByStatus(response?.data?.data))
             })
@@ -62,7 +76,7 @@ const Home = () => {
     
     useEffect(() => {
         fetchData()
-    }, [reRender]);
+    }, [reRender, searchFor, filter]);
 
     const handleCreate = () => {
         setOpen(true);
@@ -149,6 +163,7 @@ const Home = () => {
                             ),
                             sx: { paddingLeft: '8px' }
                         }}
+                        onChange={(event) => setSearchFor(event?.target.value)}
                         autoComplete='off'
                     />
                    <div>
@@ -156,7 +171,7 @@ const Home = () => {
                             src="/user.jpeg"
                             alt="user"
                             style={{boxShadow:'0px 0px 6px 2px #0000001a'}}
-                            className='rounded-full w-8 h-8'
+                            className='rounded-full w-12 h-8'
                         />
                    </div>
                 </div>
@@ -169,7 +184,11 @@ const Home = () => {
                      style={{ boxShadow: '6px 0px 6px -2px rgba(0, 0, 0, 0.1)' }}>
                     <h1 className='text-xl font-semibold'>Issues List</h1>
                     {result?.map((issueName) => (
-                        <div key={issueName} className='flex justify-between items-center p-2 hover:bg-[#EFF4FD] rounded-lg cursor-pointer'>
+                        <div 
+                            key={issueName}
+                            className='flex justify-between items-center p-2 hover:bg-[#EFF4FD] rounded-lg cursor-pointer'
+                            onClick={() => setFilter(issueName)}
+                        >
                             <p className='text-sm'>{issueName}</p>
                             <ArrowRight fontSize='small' />
                         </div>
