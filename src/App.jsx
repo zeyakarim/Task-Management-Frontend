@@ -24,9 +24,6 @@ function App() {
           />
           <Route path='/signup' element={<SignUp />} />
           <Route path='/signin' element={<SignIn />} />
-          {/* <Route path='/hotels' element={<Dashboard />} />
-          <Route path='/hotels/:id/booking' element={<Booking />} />
-          <Route path='/checkin/:id' element={<CheckIn />} /> */}
         </Routes>
       </BrowserRouter>
     )
